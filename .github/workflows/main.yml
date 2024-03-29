@@ -1,22 +1,19 @@
-name: CI
-
-on:
-
- push:
-   branches:[ master]
-   
+name: GitHub Actions Demo
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [push]
 jobs:
-  build:
-   runs-on: ubuntu-latest
-   
-   steps:
-     - uses: actions/checkout@v2
-     
-     - name: Run a one-line script
-       run: echo Hello, word!
-      
-     - name: Run a multi-line script
-       run: |
-         echo Add other actions to build,
-         echo test, and deploy your project
-     
+  build: 
+    runs-on: self-hosted
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+  test: 
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 test successful."
+      - run: exit 1
+  deploy: 
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 deploy successful"
