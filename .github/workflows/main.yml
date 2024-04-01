@@ -1,19 +1,14 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+name: learn-github-actions
+run-name: ${{ github.actor }} is learning GitHub Actions
 on: [push]
 jobs:
-  build: 
-    runs-on: self-hosted
-    steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-  test: 
-    needs: [build]
+  check-bats-version:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🎉 test successful."
-      - run: exit 1
-  deploy: 
-    needs: [test]
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "🎉 deploy successful"
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install -g bats
+      - run: bats -v
+
